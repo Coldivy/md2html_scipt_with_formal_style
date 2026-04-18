@@ -13,12 +13,14 @@
   print-color-adjust: exact;
 }
 
-html,
-body {
-  margin: 0 !important;
-  padding: 0 !important;
-  width: 100%;
-  background-color: white;
+@media print {
+  html,
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: auto !important;
+    background-color: white;
+  }
 }
 
 body {
@@ -36,6 +38,7 @@ body {
     padding: 20px 0;
   }
   body {
+    background-color: white;
     width: 210mm;
     min-height: 297mm;
     /* 预览时手动模拟出 @page 的效果 */
