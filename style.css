@@ -1,0 +1,124 @@
+@charset "UTF-8";
+
+/* --- 1. 物理页面定义 (PDF 的骨架) --- */
+@page {
+  size: A4;
+  /* 严格锁定 Word 标准：上下 2.54cm，左右 3.18cm */
+  margin: 2.54cm 3.18cm;
+}
+
+/* --- 2. 基础重置 --- */
+* {
+  box-sizing: border-box;
+  print-color-adjust: exact;
+}
+
+html,
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100%;
+  background-color: white;
+}
+
+body {
+  font-family: "SimSun", "STSong", serif;
+  font-size: 12pt; /* 小四 */
+  line-height: 22pt; /* 固定行距 22 磅 */
+  text-align: justify;
+  color: #000;
+}
+
+/* --- 3. 屏幕预览模式优化 (让它在浏览器里看起来也带边距) --- */
+@media screen {
+  html {
+    background-color: #e0e0e0;
+    padding: 20px 0;
+  }
+  body {
+    width: 210mm;
+    min-height: 297mm;
+    /* 预览时手动模拟出 @page 的效果 */
+    padding: 2.54cm 3.18cm !important;
+    margin: 0 auto !important;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* --- 标题与段落排版 --- */
+h1 {
+  font-family: "SimHei", "STHeiti", sans-serif;
+  font-size: 14pt;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 25pt;
+}
+
+p {
+  margin: 0;
+  text-indent: 24pt; /* 2个中文字符缩进 */
+}
+
+/* 修正：列表和图片不应有缩进 */
+ul,
+ol,
+.mermaid,
+img {
+  text-indent: 0 !important;
+}
+
+/* Mermaid 矢量图样式 */
+.mermaid {
+  display: flex;
+  justify-content: center;
+
+  /* 增加上下外边距：40pt 约等于两行正文的高度，让它不贴着文字也不贴着页顶 */
+  margin: 40pt auto;
+
+  /* 增加内边距：防止在某些浏览器下边缘被切掉 */
+  padding: 10pt 0;
+
+  text-indent: 0 !important;
+
+  /* 物理分页优化 */
+  page-break-inside: avoid; /* 防止图表内部被分页切断 */
+  break-inside: avoid;
+}
+
+/* 针对打印和导出 PDF 的优化 */
+@media print {
+  .mermaid {
+    page-break-inside: avoid;
+    width: 100%;
+    margin-top: 20pt;
+    margin-bottom: 20pt;
+  }
+}
+
+/* 提升 Mermaid 矢量图内部文字的清晰度 */
+.mermaid svg {
+  max-width: 100%;
+  height: auto;
+  font-family: "PingFang SC", "Microsoft YaHei", sans-serif !important;
+}
+
+/* 调大节点内的文字大小，增强易读性 */
+.mermaid .node label {
+  font-size: 16px !important;
+  line-height: 1.4;
+}
+
+/* 强化线条连线的视觉引导 */
+.mermaid .edgePath path {
+  stroke-width: 1.5px !important;
+}
+
+/* 图注样式 */
+.figure-caption {
+  text-align: center;
+  font-size: 10.5pt; /* 五号字 */
+  margin-top: -20pt;
+  margin-bottom: 20pt;
+  text-indent: 0;
+}
